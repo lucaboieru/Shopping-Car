@@ -1,4 +1,4 @@
-phone_gap_test
+Shopping Cart
 ==============
 
 This is a test for the Adobe PG app.
