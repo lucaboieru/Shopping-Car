@@ -1,10 +1,70 @@
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-  <title>Phone Gap Test</title>
-
-  <h1>Dani suge o pula de negru care are cacat pe ea dar nu si-a dat seama deoarece cacatul si pula aveau aceeasi culoare</h1>
-  
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
 </head>
+<body>
+    <div id="mainContainer">
+        <div id="titleBar">
+            <div class="backButton">
+                <i class="chevron skinny rotate180"></i>
+            </div>
+            <span class="pageTitle"></span>
+        </div>
+        <div id="mainBody">
+            <div id="categories" class="tab hided">
+                <div class="row"></div>
+            </div>
+            <div id="contact" class="tab hided">
+                <h3>Hello there?</h3>
+            </div>
+        </div>
+        <div id="nav">
+            <ul class="navlist">
+                <li data-action="categories" class="navItem active col-xs-6">Categories</li>
+                <li data-action="contact" class="navItem col-xs-6">Contact</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- We'll store HTML templates here -->
+    <div class="temps hided">
+        <div class="category-temp hided col-xs-6">
+            <div class="category">
+                <span class="category-title"></span>
+            </div>
+        </div>
+        <div class="product-temp hided col-xs-12 mb-m">
+            <div class="product">
+                <div class="product-info">
+                    <div class="row">
+                        <div class="p-m">
+                            <div class="col-xs-6">
+                                <div class="shop">
+                                    <img src="images/emag.png" class="imgByWidth">
+                                </div>
+                                <img class="imgByWidth product-img">
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="price-tag tag"></div>
+                                <strong class="pull-right">Pret vechi:</strong><br>
+                                <span class="old-price pull-right"></span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-description">
+                    <div class="p-m">
+                        <p class="title"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
