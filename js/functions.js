@@ -1,6 +1,9 @@
 var json;
+var ip;
 
 $(document).ready(function () {
+    // this is for development
+    ip = prompt("Please enter your server ip","");
 
     // load first tab
     $('.tab:first').show();
@@ -119,7 +122,7 @@ function makeAjaxPostCall (url, params, callback) {
 
     // make the ajax request
     $.ajax({
-        url:"http://127.0.0.1:7777/" + url,
+        url:"http://" + ip + ":7777/" + url,
         type: 'post',
         cache: false,
         data: params,
