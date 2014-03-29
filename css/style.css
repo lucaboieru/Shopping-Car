@@ -52,7 +52,9 @@
     top: 0px;
     padding-top: 45px;
     bottom: 0px;
+    padding-bottom: 50px;
     overflow: auto;
+    background: #fff;
 }
 
 .navlist {
@@ -197,6 +199,9 @@
 
 .product {
     position: relative;
+    -webkit-box-shadow: 2px 2px 4px 0px rgba(175, 175, 175, 0.75);
+    -moz-box-shadow:    2px 2px 4px 0px rgba(175, 175, 175, 0.75);
+    box-shadow:         2px 2px 4px 0px rgba(175, 175, 175, 0.75);
 }
 
 .shop {

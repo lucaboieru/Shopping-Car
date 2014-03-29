@@ -1,5 +1,6 @@
 var json;
 var ip;
+var states = [];
 
 $(document).ready(function () {
     // this is for development
@@ -32,24 +33,51 @@ $(document).ready(function () {
             // TODO we won't need this after the back button will work
             loadCategories();
         }
+
+        // clear states and back button
+        states = [];
+        hideBackButton();
     });
 
     $(document).on('click', '.category', function() {
         if (!$(this).attr("subcategory")) {
             showBackButton();
             loadSubcategories($(this).attr("category"));
+            states.push($(this).attr("category"));
         } else {
             loadProductList($(this).attr("category"), $(this).attr("subcategory"));
+            states.push([$(this).attr("category"), $(this).attr("subcategory")]);
             showBackButton();
         }
     });
 
     document.addEventListener("backbutton", onBackKeyDown, false);
 
+    // handle back button
     function onBackKeyDown () {
-        alert("You pressed the back button on your Android device. Good Job! ;)");
+        handleState();
     }
+    $(document).on('click', '.backButton', function() {
+        handleState();
+    })
 });
+
+function handleState () {
+
+    // last position
+    var last = states.length - 1;
+    if (typeof states[last] === 'string') {
+        loadCategories();
+        states.pop();
+    } else if (states[last] instanceof Array) {
+        loadSubcategories(states[last][0]);
+        states.pop();
+    }
+
+    if (!states.length) {
+        hideBackButton();
+    }
+}
 
 function loadProductList (category, subcategory) {
 
