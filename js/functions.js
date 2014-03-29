@@ -1,9 +1,9 @@
 var json;
 var ip;
-var states = [];
 
-var gCategory;
-var gSubcategory;
+// app core objects
+var states = {};
+var activeTab;
 
 // TODO these objects are hardcoded... they have to come from "THE GREAT SERVER OF DOOM >:)"
 var hosts = {
@@ -30,6 +30,11 @@ $(document).ready(function () {
     // load first tab
     $('.tab:first').show();
     $(".pageTitle").html("Categories");
+    states['categories'] = {
+        active: {},
+        history: []
+    };
+    activeTab = 'categories';
 
     loadCategories();
 
@@ -48,57 +53,67 @@ $(document).ready(function () {
         // show the right tab
         var $currentTab = $('#' + tab);
         $currentTab.fadeIn(150);
-        $(".pageTitle").html(capitaliseFirstLetter(tab));
 
-        if (tab === 'categories') {
-            // TODO we won't need this after the back button will work
-            //      states for the whole app so the back button won't dissapear
-            loadCategories();
+        // init the states
+        if (!states[tab]) {
+            states[tab] = {
+                active: {},
+                history: []
+            };
         }
+        activeTab = tab;
 
-        // clear states and back button
-        states = [];
-        hideBackButton();
+        // actions based on state 
+        if (!states[activeTab].history.length) {
+            hideBackButton();
+            $(".pageTitle").html(capitaliseFirstLetter(tab));
+        } else {
+            showBackButton();
+            $(".pageTitle").html(states[activeTab].active.title);
+        }
     });
 
     $(document).on('click', '.category', function() {
+        
+        // state is about to change, add active one to history
+        states[activeTab].history.push(states[activeTab].active);
+
         if (!$(this).attr("subcategory")) {
-            showBackButton();
+            // create the active state
+            states[activeTab].active = {
+                title: $(this).attr("categoryName"),
+                type: 'category',
+                category: $(this).attr("category"),
+                subcategory: null
+            }
+
             loadSubcategories($(this).attr("category"));
 
-            $(".pageTitle").html($(this).attr("categoryName"));
-
-            // push the state
-            states.push({
-                type: 'category',
-                data: null,
-                title: 'Categories'
-            });
-
-        } else {
-            loadProductList($(this).attr("category"), $(this).attr("subcategory"));
             showBackButton();
-            $(".pageTitle").html($(this).attr("subcategoryName"));
-
-            // push the state
-            states.push({
+            $(".pageTitle").html($(this).attr("categoryName"));
+        } else {
+            // create the active state
+            states[activeTab].active = {
+                title: $(this).attr("subcategoryName"),
                 type: 'subcategory',
-                data: $(this).attr("category"),
-                title: $(this).attr("categoryName")
-            });
+                category: $(this).attr("category"),
+                subcategory: $(this).attr("subcategory")
+            } 
+
+            // load the products
+            loadProductList($(this).attr("category"), $(this).attr("subcategory"));
+
+            showBackButton();
+            $(".pageTitle").html($(this).attr("subcategoryName"));       
         }
     });
 
     // handle load more
     $(document).on("click", ".load-more", function () {
         var howManyProducts = $(".product").length - 1;
-        loadProductList(gCategory, gSubcategory, howManyProducts);
+        loadProductList(states[activeTab].active.category, states[activeTab].active.subcategory, howManyProducts);
     });
 
-    // handle back button
-    function onBackKeyDown () {
-        handleState();
-    }
     $(document).on('click', '.backButton', function() {
         handleState();
     })
@@ -115,36 +130,34 @@ function onDeviceReady(){
 
 function handleState () {
 
-    if (!states.length) {
+    if (!states[activeTab].history.length) {
         hideBackButton();
         navigator.app.exitApp();
     }
 
-    // last position
-    var last = states.length - 1;
-    if (states[last].type === 'category') {
+    // get youngest state position
+    var last = states[activeTab].history.length - 1;
+
+    if (states[activeTab].history[last].type === 'index') {
         loadCategories();
-        $(".pageTitle").html(states[last].title);
+        $(".pageTitle").html(states[activeTab].history[last].title);
+
+        states[activeTab].active = states[activeTab].history[last];
 
         // delete the state
-        states.pop();
-    } else if (states[last].type === 'subcategory') {
-        loadSubcategories(states[last].data);
-        $(".pageTitle").html(states[last].title);
+        states[activeTab].history.pop();
+    } else if (states[activeTab].history[last].type === 'category') {
+        loadSubcategories(states[activeTab].history[last].category);
+        $(".pageTitle").html(states[activeTab].history[last].title);
+
+        states[activeTab].active = states[activeTab].history[last];
 
         // delete the state
-        states.pop();
-    }
-
-    if (!states.length) {
-        hideBackButton();
+        states[activeTab].history.pop();
     }
 }
 
 function loadProductList (category, subcategory, skip) {
-
-    gCategory = category;
-    gSubcategory = subcategory;
 
     var params = {
         "class": category,
@@ -218,6 +231,17 @@ function loadCategories () {
         }
         $("#categories>.row").html(elems);
         $(".load-more").hide();
+
+        // handle states
+        states[activeTab].active = {
+            title: 'Categories',
+            type: 'index',
+            category: null,
+            subcategory: null
+        }
+
+        // hide back button
+        hideBackButton();
     });
 }
 
