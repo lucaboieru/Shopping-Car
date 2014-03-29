@@ -2,6 +2,9 @@ var json;
 var ip;
 var states = [];
 
+var gCategory;
+var gSubcategory;
+
 var hosts = {
     "emag.ro": "emag.png",
     "mediadot.ro": "mediadot.png",
@@ -10,7 +13,7 @@ var hosts = {
 
 $(document).ready(function () {
     // this is for development
-    ip = prompt("Please enter your server ip","");
+    ip = "127.0.0.1";//prompt("Please enter your server ip","");
 
     // load first tab
     $('.tab:first').show();
@@ -37,6 +40,7 @@ $(document).ready(function () {
 
         if (tab === 'categories') {
             // TODO we won't need this after the back button will work
+            //      states for the whole app so the back button won't dissapear
             loadCategories();
         }
 
@@ -55,6 +59,12 @@ $(document).ready(function () {
             states.push([$(this).attr("category"), $(this).attr("subcategory")]);
             showBackButton();
         }
+    });
+
+    // handle load more
+    $(document).on("click", ".load-more", function () {
+        var howManyProducts = $(".product").length - 1;
+        loadProductList(gCategory, gSubcategory, howManyProducts);
     });
 
     // handle back button
@@ -96,11 +106,15 @@ function handleState () {
     }
 }
 
-function loadProductList (category, subcategory) {
+function loadProductList (category, subcategory, skip) {
+
+    gCategory = category;
+    gSubcategory = subcategory;
 
     var params = {
         "class": category,
-        "subclass": subcategory
+        "subclass": subcategory,
+        "skip": skip || 0
     };
 
     makeAjaxPostCall("", params, function (data) {
@@ -120,7 +134,8 @@ function loadProductList (category, subcategory) {
             $temp.show();
             elems.push($temp);
         }
-        $("#categories>.row").html(elems);
+        skip ? $("#categories>.row").append(elems) : $("#categories>.row").html(elems);
+        products.length ? $(".load-more").show() : $(".load-more").hide();
     });
 }
 
@@ -143,6 +158,7 @@ function loadSubcategories (category) {
         }
     }
     $("#categories>.row").html(elems);
+    $(".load-more").hide();
 }
 
 function loadCategories () {
@@ -161,6 +177,7 @@ function loadCategories () {
             elems.push($temp);
         }
         $("#categories>.row").html(elems);
+        $(".load-more").hide();
     });
 }
 
