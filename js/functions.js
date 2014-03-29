@@ -13,7 +13,8 @@ var hosts = {
 
 $(document).ready(function () {
     // this is for development
-    ip = "127.0.0.1";//prompt("Please enter your server ip","");
+    ip = prompt("Please enter your server ip","");
+    //ip = '127.0.0.1';
 
     // load first tab
     $('.tab:first').show();
@@ -53,11 +54,27 @@ $(document).ready(function () {
         if (!$(this).attr("subcategory")) {
             showBackButton();
             loadSubcategories($(this).attr("category"));
-            states.push($(this).attr("category"));
+
+            $(".pageTitle").html($(this).attr("categoryName"));
+
+            // push the state
+            states.push({
+                type: 'category',
+                data: null,
+                title: 'Categories'
+            });
+
         } else {
             loadProductList($(this).attr("category"), $(this).attr("subcategory"));
-            states.push([$(this).attr("category"), $(this).attr("subcategory")]);
             showBackButton();
+            $(".pageTitle").html($(this).attr("subcategoryName"));
+
+            // push the state
+            states.push({
+                type: 'subcategory',
+                data: $(this).attr("category"),
+                title: $(this).attr("categoryName")
+            });
         }
     });
 
@@ -80,6 +97,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
     document.addEventListener("backbutton", function(e){
+        e.preventDefault();
         handleState();
     }, false);
 }
@@ -93,11 +111,17 @@ function handleState () {
 
     // last position
     var last = states.length - 1;
-    if (typeof states[last] === 'string') {
+    if (states[last].type === 'category') {
         loadCategories();
+        $(".pageTitle").html(states[last].title);
+
+        // delete the state
         states.pop();
-    } else if (states[last] instanceof Array) {
-        loadSubcategories(states[last][0]);
+    } else if (states[last].type === 'subcategory') {
+        loadSubcategories(states[last].data);
+        $(".pageTitle").html(states[last].title);
+
+        // delete the state
         states.pop();
     }
 
@@ -149,6 +173,8 @@ function loadSubcategories (category) {
                 var $temp = $(".category-temp").clone();
                 $temp.find(".category-title").html(json[i].subclass[j]);
                 $temp.find(".category").attr("subcategory", json[i].subclass_id[j]);
+                $temp.find(".category").attr("subcategoryName", json[i].subclass[j]);
+                $temp.find(".category").attr("categoryName", json[i].name);
                 $temp.find(".category").attr("category", category);
                 $temp.removeClass("category-temp");
                 $temp.show();
@@ -172,6 +198,7 @@ function loadCategories () {
             var $temp = $(".category-temp").clone();
             $temp.find(".category-title").html(json[i].name);
             $temp.find(".category").attr("category", json[i].class_id);
+            $temp.find(".category").attr("categoryName", json[i].name);
             $temp.removeClass("category-temp");
             $temp.show();
             elems.push($temp);
