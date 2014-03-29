@@ -101,11 +101,21 @@
 
 .category {
     height: 100px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     text-align: center;
-    line-height: 100px;
-    background-color: #eee;
+    line-height: 30px;
     margin-bottom: 15px;
+}
+
+.category-title {
+    font-weight: bold;
+}
+
+.category-img {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    display: block;
 }
 
 .tag {

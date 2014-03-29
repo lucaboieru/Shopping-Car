@@ -5,10 +5,21 @@ var states = [];
 var gCategory;
 var gSubcategory;
 
+// TODO these objects are hardcoded... they have to come from "THE GREAT SERVER OF DOOM >:)"
 var hosts = {
     "emag.ro": "emag.png",
     "mediadot.ro": "mediadot.png",
     "pcgarage.ro": "pcgarage.png"
+};
+
+var categoryImgs = {
+    electronice: "electronice.png",
+    electrocasnice: "electrocasnice.png",
+    computer_parts: "parts.png",
+    portables: "portables.png",
+    foto: "foto.png",
+    video: "video.png",
+    televizoare: "televizoare.png"
 };
 
 $(document).ready(function () {
@@ -171,6 +182,7 @@ function loadSubcategories (category) {
         if (json[i].class_id === category) {
             for (var j in json[i].subclass) {
                 var $temp = $(".category-temp").clone();
+                $temp.find(".category-img").attr("src", "images/" + categoryImgs[json[i].subclass_id[j]]);
                 $temp.find(".category-title").html(json[i].subclass[j]);
                 $temp.find(".category").attr("subcategory", json[i].subclass_id[j]);
                 $temp.find(".category").attr("subcategoryName", json[i].subclass[j]);
@@ -196,6 +208,7 @@ function loadCategories () {
 
         for (var i in json) {
             var $temp = $(".category-temp").clone();
+            $temp.find(".category-img").attr("src", "images/" + categoryImgs[json[i].class_id]);
             $temp.find(".category-title").html(json[i].name);
             $temp.find(".category").attr("category", json[i].class_id);
             $temp.find(".category").attr("categoryName", json[i].name);
