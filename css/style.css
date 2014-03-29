@@ -93,10 +93,10 @@
     position: absolute;
     width: 45px;
     height: 100%;
-}
-
-.backButton i {
-    margin-top: 11px;
+    background-image: url("../images/chevron.png");
+    background-repeat: no-repeat;
+    background-size: 35px 35px;
+    background-position: center;
 }
 
 .category {
@@ -106,48 +106,6 @@
     line-height: 100px;
     background-color: #eee;
     margin-bottom: 15px;
-}
-
-.chevron {
-    display:inline-block;
-    background: #3e7ca9;
-    width: .55em;
-    height: .8em;
-    position:relative;
-}
-.chevron:before,
-.chevron:after {
-    display:inline-block;
-    content:"";
-    width:0;
-    height:0em;
-    border-style:solid;
-    position:absolute;
-}
-
-.chevron:before {
-    left:0;
-    border-width:.4em 0 .4em .4em;
-    border-color:transparent transparent transparent #fff;    
-}
-
-.chevron:after {
-    right:0;
-    border-width:.4em 0 .4em .4em;
-    border-color:#fff transparent;    
-}
-
-.chevron.skinny {
-    width: .53em;
-    font-size: 1.5em;
-}
-
-.rotate180 {
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    transform: rotate(180deg);
 }
 
 .tag {
