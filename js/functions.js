@@ -2,6 +2,12 @@ var json;
 var ip;
 var states = [];
 
+var hosts = {
+    "emag.ro": "emag.png",
+    "mediadot.ro": "mediadot.png",
+    "pcgarage.ro": "pcgarage.png"
+};
+
 $(document).ready(function () {
     // this is for development
     ip = prompt("Please enter your server ip","");
@@ -128,6 +134,7 @@ function loadProductList (category, subcategory) {
             var $temp = $(".product-temp").clone();
 
             // add data to product template
+            $temp.find(".host").attr("src", "images/" + hosts[products[i].host]);
             $temp.find(".product-img").attr("src", products[i].img);
             $temp.find(".price-tag").html(products[i].price);
             $temp.find(".old-price").html(products[i].oldPrice);
