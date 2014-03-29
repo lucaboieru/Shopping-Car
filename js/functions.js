@@ -51,8 +51,6 @@ $(document).ready(function () {
         }
     });
 
-    document.addEventListener("backbutton", onBackKeyDown, false);
-
     // handle back button
     function onBackKeyDown () {
         handleState();
@@ -62,7 +60,20 @@ $(document).ready(function () {
     })
 });
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady(){
+    document.addEventListener("backbutton", function(e){
+        handleState();
+    }, false);
+}
+
 function handleState () {
+
+    if (!states.length) {
+        hideBackButton();
+        navigator.app.exitApp();
+    }
 
     // last position
     var last = states.length - 1;
