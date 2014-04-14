@@ -63,9 +63,18 @@
     margin-bottom: 0;
 }
 
+.navImg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin: 0 auto;
+}
+
 .navlist li {
     text-align: center;
-    line-height: 50px;
+    line-height: 22px;
+    padding-top: 7px;
+    font-size: 12px;
 }
 
 .navlist li:hover , .navlist li.active{
@@ -108,7 +117,7 @@
 }
 
 .category-title {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .category-img {
