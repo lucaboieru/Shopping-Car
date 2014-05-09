@@ -24,21 +24,20 @@
 
 #titleBar {
     height: 45px;
-    background-color: rgba(255, 255, 255, .8);
-    color: #3e7ca9;
+    background-color: rgba(32, 36, 38, .9);
+    color: #ffffff;
     position: absolute;
     top: 0px;
     width: 100%;
     text-align: center;
     line-height: 45px;
     font-size: 20px;
-    border-bottom: 1px solid #eaeaea;
     z-index: 100;
 }
 
 #nav {
     height: 50px;
-    background-color: rgba(130, 30, 40, .9);
+    background-color: rgba(32, 36, 38, .9);
     color: #fff;
     position: absolute;
     bottom: 0px;
@@ -54,7 +53,8 @@
     bottom: 0px;
     padding-bottom: 50px;
     overflow: auto;
-    background-image: url('../images/crossword.png');
+    /*background-image: url('../images/crossword.png');*/
+    background-color: rgb(38, 42, 45);
 }
 
 .navlist {
@@ -78,7 +78,7 @@
 }
 
 .navlist li:hover , .navlist li.active{
-    background-color: rgba(100, 30, 30, 0.5);
+    /*background-color: rgba(100, 30, 30, 0.5);*/
 }
 
 .tab {
@@ -110,21 +110,67 @@
 
 .category {
     height: 100px;
-    /*border: 1px solid #ccc;*/
     text-align: center;
     line-height: 30px;
-    margin-bottom: 15px;
-}
-
-.category-title {
-    font-weight: 500;
+    margin-bottom: 30px;
+    color: #fff;
 }
 
 .category-img {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto;
-    display: block;
+    padding: 5px 0;
+}
+
+.category-title {
+    padding: 5px 0;
+}
+
+.one .category-img {
+    background-color: #f39c12;
+}
+
+.one .category-title {
+    background-color: #e67e22;
+}
+
+.two .category-img {
+    background-color: #2ecc71
+}
+
+.two .category-title {
+    background-color: #27ae60;
+}
+
+.three .category-img {
+    background-color: #3498db;
+}
+
+.three .category-title {
+    background-color: #2980b9;
+}
+
+.four .category-img {
+    background-color: #e74c3c;
+}
+
+.four .category-title {
+    background-color: #c0392b;
+}
+
+.five .category-img {
+    color: #000;
+    background-color: #ecf0f1;
+}
+
+.five .category-title {
+    background-color: #bdc3c7;
+}
+
+.six .category-img {
+    background-color: #2c3e50;
+}
+
+.six .category-title {
+    background-color: #34495e;
 }
 
 .tag {

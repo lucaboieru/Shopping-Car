@@ -24,8 +24,8 @@ var categoryImgs = {
 
 $(document).ready(function () {
     // this is for development
-    ip = prompt("Please enter your server ip","");
-    //ip = '127.0.0.1';
+    //ip = prompt("Please enter your server ip","");
+    ip = '127.0.0.1';
 
     // load first tab
     $('.tab:first').show();
@@ -36,7 +36,7 @@ $(document).ready(function () {
     };
     activeTab = 'categories';
 
-    loadCategories();
+    //loadCategories();
 
     // tab select handler
     $('.navItem').on('click', function () {
