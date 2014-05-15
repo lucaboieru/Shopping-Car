@@ -23,9 +23,6 @@ var categoryImgs = {
 };
 
 $(document).ready(function () {
-    // this is for development
-    ip = prompt("Please enter your server ip","");
-    //ip = '127.0.0.1';
 
     // load first tab
     $('.tab:first').show();
@@ -249,8 +246,9 @@ function makeAjaxPostCall (url, params, callback) {
 
     // make the ajax request
     $.ajax({
-        url:"http://" + ip + ":7777/" + url,
+        url:"http://squareapps.cloudapp.net:7777/" + url,
         type: 'post',
+        crossDomain: true,
         cache: false,
         data: params,
         success: function(data){
@@ -258,8 +256,8 @@ function makeAjaxPostCall (url, params, callback) {
             callback(data);
         },
         error: function(jqXHR, textStatus, err){
-               alert('text status ' + textStatus + ', err ' + err)
-           }    
+            alert('text status ' + textStatus + ', err ' + err)
+        }    
     });
 };
 
