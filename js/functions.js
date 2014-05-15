@@ -1,5 +1,5 @@
 var json;
-var ip;
+var serverAddress;
 
 // app core objects
 var states = {};
@@ -23,9 +23,8 @@ var categoryImgs = {
 };
 
 $(document).ready(function () {
-    // this is for development
-    //ip = prompt("Please enter your server ip","");
-    ip = '127.0.0.1';
+
+    serverAddress = "squareapps.cloudapp.net";
 
     // load first tab
     $('.tab:first').show();
@@ -36,7 +35,7 @@ $(document).ready(function () {
     };
     activeTab = 'categories';
 
-    //loadCategories();
+    loadCategories();
 
     // tab select handler
     $('.navItem').on('click', function () {
@@ -221,8 +220,10 @@ function loadCategories () {
 
         for (var i in json) {
             var $temp = $(".category-temp").clone();
-            $temp.find(".category-img").attr("src", "images/" + categoryImgs[json[i].class_id]);
+            $temp.find(".category-img img").attr("src", "images/" + categoryImgs[json[i].class_id]);
+            $temp.find(".category-img").css("backgroundColor", json[i].colors.light);
             $temp.find(".category-title").html(json[i].name);
+            $temp.find(".category-title").css("backgroundColor", json[i].colors.dark);
             $temp.find(".category").attr("category", json[i].class_id);
             $temp.find(".category").attr("categoryName", json[i].name);
             $temp.removeClass("category-temp");
@@ -249,7 +250,7 @@ function makeAjaxPostCall (url, params, callback) {
 
     // make the ajax request
     $.ajax({
-        url:"http://" + ip + ":7777/" + url,
+        url:"http://" + serverAddress + ":7777/" + url,
         type: 'post',
         cache: false,
         data: params,
@@ -258,8 +259,8 @@ function makeAjaxPostCall (url, params, callback) {
             callback(data);
         },
         error: function(jqXHR, textStatus, err){
-               alert('text status ' + textStatus + ', err ' + err)
-           }    
+            alert('text status ' + textStatus + ', err ' + err)
+        }    
     });
 };
 
