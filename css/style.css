@@ -113,8 +113,9 @@
     height: 100px;
     text-align: center;
     line-height: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     color: #fff;
+    clear: both;
 }
 
 .category {
@@ -134,7 +135,7 @@
 }
 
 .category-img {
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
 .category-img img {
@@ -143,7 +144,7 @@
 }
 
 .category-title {
-    padding: 5px 0;
+    padding: 2px 0;
 }
 
 .tag {
