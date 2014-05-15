@@ -1,5 +1,5 @@
 var json;
-var ip;
+var serverAddress;
 
 // app core objects
 var states = {};
@@ -23,6 +23,8 @@ var categoryImgs = {
 };
 
 $(document).ready(function () {
+
+    serverAddress = "squareapps.cloudapp.net";
 
     // load first tab
     $('.tab:first').show();
@@ -218,8 +220,10 @@ function loadCategories () {
 
         for (var i in json) {
             var $temp = $(".category-temp").clone();
-            $temp.find(".category-img").attr("src", "images/" + categoryImgs[json[i].class_id]);
+            $temp.find(".category-img img").attr("src", "images/" + categoryImgs[json[i].class_id]);
+            $temp.find(".category-img").css("backgroundColor", json[i].colors.light);
             $temp.find(".category-title").html(json[i].name);
+            $temp.find(".category-title").css("backgroundColor", json[i].colors.dark);
             $temp.find(".category").attr("category", json[i].class_id);
             $temp.find(".category").attr("categoryName", json[i].name);
             $temp.removeClass("category-temp");
@@ -246,7 +250,7 @@ function makeAjaxPostCall (url, params, callback) {
 
     // make the ajax request
     $.ajax({
-        url:"http://squareapps.cloudapp.net:7777/" + url,
+        url:"http://" + serverAddress + ":7777/" + url,
         type: 'post',
         crossDomain: true,
         cache: false,
