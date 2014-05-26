@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/noise.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/functions.js"></script>
@@ -13,25 +14,25 @@
             <div class="backButton hided"></div>
             <span class="pageTitle"></span>
         </div>
-        <div id="mainBody">
+        <div id="mainBody" class="">
             <div id="categories" class="tab hided">
                 <div class="row">
                 </div>
-                <div class="load-more col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 hided">
+                <div class="load-more col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 hided mb-m">
                     Incarcati mai multe rezultate
                 </div>
             </div>
-            <div id="contact" class="tab hided">
+            <div id="shops" class="tab hided">
                 <h3>Shops</h3>
             </div>
         </div>
         <div id="nav">
             <ul class="navlist">
                 <li data-action="categories" class="navItem active col-xs-6">
-                    <img src="images/categories.png" class="navImg">
+                    <img src="images/categories_active.png" class="navImg">
                     <span>Categorii</span>
                 </li>
-                <li data-action="contact" class="navItem col-xs-6">
+                <li data-action="shops" class="navItem col-xs-6">
                     <img src="images/shops.png" class="navImg">
                     <span>Magazine</span>
                 </li>
@@ -43,25 +44,24 @@
     <div class="temps hided">
         <div class="category-temp hided col-xs-6">
             <div class="category">
-                <div class="category-img"><img src=""></div>
-                <div class="category-title"></div>
+                <div class="category-img noise">
+                    <img src="">
+                    <div class="category-title noise"></div>
+                </div>
             </div>
         </div>
-        <div class="product-temp hided col-xs-12 col-sm-6 mb-m">
+        <div class="product-temp hided col-xs-12 col-sm-6 mt-m">
             <div class="product">
                 <div class="product-info">
-                    <div class="row">
-                        <div class="p-m">
+                    <div class="">
+                        <div class="p-xs">
                             <div class="col-xs-6">
-                                <div class="shop">
-                                    <img class="host imgByWidth">
-                                </div>
                                 <img class="imgByWidth product-img">
                             </div>
                             <div class="col-xs-6">
                                 <div class="price-tag tag"></div>
                                 <div class="clearfix"></div>
-                                <strong class="pull-right">Pret vechi:</strong><br>
+                                <strong class="pull-right mt-xs">Pret vechi:</strong><br>
                                 <span class="old-price pull-right"></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -69,8 +69,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="shop">
+                    <!--<img class="host imgByWidth">-->
+                </div>
                 <div class="product-description">
-                    <div class="p-m">
+                    <div class="p-xs">
                         <p class="title"></p>
                     </div>
                 </div>

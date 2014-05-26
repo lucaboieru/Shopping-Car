@@ -44,7 +44,11 @@ $(document).ready(function () {
         var tab = $(this).attr('data-action');
 
         $('.navItem').removeClass('active');
+        $('.navItem').each(function () {
+            $(this).find("img").attr("src", "images/" + $(this).attr("data-action") + ".png");
+        });
         $(this).addClass('active')
+        $(this).find("img").attr("src", "images/" + $(this).attr("data-action") + "_active.png");
 
         // hide all tabs
         $('.tab').hide();
@@ -221,7 +225,8 @@ function loadCategories () {
         for (var i in json) {
             var $temp = $(".category-temp").clone();
             $temp.find(".category-img img").attr("src", "images/" + categoryImgs[json[i].class_id]);
-            $temp.find(".category-img").css("backgroundColor", json[i].colors.light);
+            $temp.find(".category-img").css("backgroundColor", json[i].colors.dark);
+            $temp.find(".category-img").css("border","5px solid " + json[i].colors.light);
             $temp.find(".category-title").html(json[i].name);
             $temp.find(".category-title").css("backgroundColor", json[i].colors.dark);
             $temp.find(".category").attr("category", json[i].class_id);
