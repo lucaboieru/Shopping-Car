@@ -113,8 +113,12 @@ $(document).ready(function () {
 
     // handle load more
     $(document).on("click", ".load-more", function () {
+        var btn = $(this);
+        btn.addClass("active");
         var howManyProducts = $(".product").length - 1;
-        loadProductList(states[activeTab].active.category, states[activeTab].active.subcategory, howManyProducts);
+        loadProductList(states[activeTab].active.category, states[activeTab].active.subcategory, howManyProducts, function () {
+            btn.removeClass("active");
+        });
     });
 
     $(document).on('click', '.backButton', function() {
@@ -160,7 +164,7 @@ function handleState () {
     }
 }
 
-function loadProductList (category, subcategory, skip) {
+function loadProductList (category, subcategory, skip, callback) {
 
     var params = {
         "class": category,
@@ -168,9 +172,14 @@ function loadProductList (category, subcategory, skip) {
         "skip": skip || 0
     };
 
+    callback = callback || function () {};
+
     makeAjaxPostCall("", params, function (data) {
         var elems = [];
         var products = JSON.parse(data);
+
+        callback();
+
         for(var i in products) {
             var $temp = $(".product-temp").clone();
 
