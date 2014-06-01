@@ -19,7 +19,9 @@ var categoryImgs = {
     portables: "portables.png",
     foto: "foto.png",
     video: "video.png",
-    televizoare: "televizoare.png"
+    televizoare: "televizoare.png",
+    phones: "phones.png",
+    tablets: "tablets.png"
 };
 
 $(document).ready(function () {
@@ -207,8 +209,11 @@ function loadSubcategories (category) {
         if (json[i].class_id === category) {
             for (var j in json[i].subclass) {
                 var $temp = $(".category-temp").clone();
-                $temp.find(".category-img").attr("src", "images/" + categoryImgs[json[i].subclass_id[j]]);
+                $temp.find(".category-img img").attr("src", "images/" + categoryImgs[json[i].subclass_id[j]]);
+                $temp.find(".category-img").css("backgroundColor", json[i].colors.dark);
+                $temp.find(".category-img").css("border","5px solid " + json[i].colors.light);
                 $temp.find(".category-title").html(json[i].subclass[j]);
+                $temp.find(".category-title").css("backgroundColor", json[i].colors.dark);
                 $temp.find(".category").attr("subcategory", json[i].subclass_id[j]);
                 $temp.find(".category").attr("subcategoryName", json[i].subclass[j]);
                 $temp.find(".category").attr("categoryName", json[i].name);
