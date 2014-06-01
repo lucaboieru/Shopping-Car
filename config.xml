@@ -8,7 +8,8 @@
     <!-- versionCode is optional and Android only -->
 
     <name>Shopping Cart</name>
-
+    <icon src="images/icon.png" gap:platform="android" gap:qualifier="hdpi" />
+    <gap:splash src="images/splash.png" gap:platform="android" gap:qualifier="hdpi" />
     <description>
         Shopping Cart app.
     </description>
