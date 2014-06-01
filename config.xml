@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="3.0" encoding="UTF-8" ?>
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.square.shoppingcart"
@@ -9,7 +9,7 @@
 
     <name>Shopping Cart</name>
     <icon src="images/icon.png" gap:platform="android" gap:qualifier="hdpi" />
-    <gap:splash src="images/splash.png" gap:platform="android" gap:qualifier="hdpi" />
+    <gap:splash src="splash.png" />
     <description>
         Shopping Cart app.
     </description>
