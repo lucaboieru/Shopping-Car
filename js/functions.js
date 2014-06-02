@@ -249,6 +249,7 @@ function drawProducts (products, skip, callback) {
         $temp.find(".product-img").attr("src", products[i].img);
         $temp.find(".price-tag").html(products[i].price);
         $temp.find(".old-price").html(products[i].oldPrice);
+        $temp.find(".productLink").attr('href', products[i].link);
         $temp.find(".product-description .title").html(products[i].title);
 
         $temp.removeClass("product-temp");
