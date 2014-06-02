@@ -122,6 +122,12 @@ $(document).ready(function () {
             $(".pageTitle").html($(this).attr("subcategoryName"));       
         }
     });
+    
+    // click on a shop
+    $(document).on("click", ".shopWrapper", function () {
+        var shop = $(this).attr("data-shop");
+        loadProductListByShop(shop);
+    });
 
     // handle load more
     $(document).on("click", ".load-more", function () {
@@ -226,6 +232,10 @@ function loadProductList (category, subcategory, callback) {
         // draw the first proucts
         drawProducts (activeProducts, currentSkip);
     });
+}
+
+function loadProductListByShop (shop, callback) {
+    // load by 
 }
 
 // draws products and handles the load more function
