@@ -5,6 +5,7 @@ var serverAddress;
 var states = {};
 var activeTab;
 var activeProducts = [];
+var searchResult = [];
 
 // load more init
 var LIMIT = 10;
@@ -128,7 +129,7 @@ $(document).ready(function () {
         var howManyProducts = $(".product").length - 1;
         
         // call draw handler
-        drawProducts (activeProducts, currentSkip, function () {
+        drawProducts ((searchResult.length) ? searchResult : activeProducts, currentSkip, function () {
             btn.removeClass("active");
         });
     });
@@ -150,6 +151,9 @@ $(document).ready(function () {
             $(".searchInput").animate({"width": "0"}, 200);
             $(".searchInput").css("padding", "2px 0px");
             $(".searchInput").fadeOut(200);
+
+            // show all products if search closed
+            showAllProducts();
         } else {
             $(".searchInput").show();
             $(".searchInput").css("padding", "2px 10px");
@@ -157,8 +161,8 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('keyup', '.searchInput', function () {
-        // do search
+    $(document).on('input', '.searchInput', function () {
+        searchProducts($(this).val());
     });
 });
 
@@ -198,6 +202,33 @@ function handleState () {
         // delete the state
         states[activeTab].history.pop();
     }
+}
+
+function searchProducts (input) {
+
+    // build the query variable
+    var query = input.split(" ");
+    searchResult = [];
+
+    // filter the result
+    for (var i in activeProducts) {
+
+        // get the title of the object
+        var title = activeProducts[i].title.toLowerCase();
+        var contains = 0;
+        for (var j in query) {
+
+            // if the title does not contain a query then don't add to result 
+            if (title.indexOf(query[j].toLowerCase()) !== -1) ++contains;
+
+            if (contains >= query.length) {
+                searchResult.push(activeProducts[i]);
+            }
+        }
+    }
+
+    currentSkip = 0;
+    drawProducts(searchResult, currentSkip);
 }
 
 // requests the products from the server and caches them
@@ -354,6 +385,12 @@ function makeAjaxPostCall (url, params, callback) {
         }    
     });
 };
+
+function showAllProducts () {
+    searchResult = [];
+    currentSkip = 0;
+    drawProducts(activeProducts, currentSkip);
+}
 
 function showSearchButton () {
     $(".searchButton").fadeIn(200);
