@@ -159,6 +159,34 @@
     background-position: center;
 }
 
+.searchInput {
+    width: 0;
+    height: 30px;
+    position: absolute;
+    right: 45px;
+    top: 7px;
+    border: none;
+    padding: 2px 0;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: #666;
+    color: #fff;
+    line-height: 30px;
+    font-family: sans-serif;
+}
+
+.searchButton {
+    top: 0;
+    right: 0;
+    position: absolute;
+    width: 45px;
+    height: 100%;
+    background-image: url("../images/search.png");
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: center;
+}
+
 .category {
     text-align: center;
     line-height: 30px;

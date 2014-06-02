@@ -32,7 +32,7 @@ $(document).ready(function () {
 
     // load first tab
     $('.tab:first').show();
-    $(".pageTitle").html("Categories");
+    $(".pageTitle").html("Categorii");
     states['categories'] = {
         active: {},
         history: []
@@ -107,6 +107,7 @@ $(document).ready(function () {
                 subcategory: $(this).attr("subcategory")
             } 
 
+            showSearchButton();
             // load the products
             loadProductList($(this).attr("category"), $(this).attr("subcategory"));
 
@@ -125,9 +126,33 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '.backButton', function() {
+    $(document).on('click', '.backButton', function () {
         handleState();
-    })
+        hideSearchButton();
+
+        // hide search input
+        $(".searchInput").val("");
+        $(".searchInput").animate({"width": "0"}, 200);
+        $(".searchInput").css("padding", "2px 0px");
+        $(".searchInput").fadeOut(200);
+    });
+
+    $(document).on('click', '.searchButton', function () {
+        if ($(".searchInput:visible")[0]) {
+            $(".searchInput").val("");
+            $(".searchInput").animate({"width": "0"}, 200);
+            $(".searchInput").css("padding", "2px 0px");
+            $(".searchInput").fadeOut(200);
+        } else {
+            $(".searchInput").show();
+            $(".searchInput").css("padding", "2px 10px");
+            $(".searchInput").animate({"width": "72%"}, 200);
+        }
+    });
+
+    $(document).on('keyup', '.searchInput', function () {
+        // do search
+    });
 });
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -285,6 +310,14 @@ function makeAjaxPostCall (url, params, callback) {
         }    
     });
 };
+
+function showSearchButton () {
+    $(".searchButton").fadeIn(200);
+}
+
+function hideSearchButton () {
+    $(".searchButton").fadeOut(200);
+}
 
 function showBackButton () {
     $(".backButton").show();
