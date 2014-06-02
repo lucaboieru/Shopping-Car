@@ -29,7 +29,9 @@ var categoryImgs = {
     phones: "phones.png",
     tablets: "tablets.png",
     gaming: "gaming.png",
-    software: "software.png"
+    software: "software.png",
+    antivirus: "antivirus.png",
+    pc_games: "pc_games.png"
 };
 
 $(document).ready(function () {
@@ -120,6 +122,12 @@ $(document).ready(function () {
             showBackButton();
             $(".pageTitle").html($(this).attr("subcategoryName"));       
         }
+    });
+    
+    // click on a shop
+    $(document).on("click", ".shopWrapper", function () {
+        var shop = $(this).attr("data-shop");
+        loadProductListByShop(shop);
     });
 
     // handle load more
@@ -257,6 +265,10 @@ function loadProductList (category, subcategory, callback) {
     });
 }
 
+function loadProductListByShop (shop, callback) {
+    // load by 
+}
+
 // draws products and handles the load more function
 function drawProducts (products, skip, callback) {
 
@@ -356,7 +368,7 @@ function loadCategories () {
 
         // handle states
         states[activeTab].active = {
-            title: 'Categories',
+            title: 'Categorii',
             type: 'index',
             category: null,
             subcategory: null
