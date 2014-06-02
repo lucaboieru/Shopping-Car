@@ -4,6 +4,11 @@ var serverAddress;
 // app core objects
 var states = {};
 var activeTab;
+var activeProducts = [];
+
+// load more init
+var LIMIT = 10;
+var currentSkip = 0;
 
 // TODO these objects are hardcoded... they have to come from "THE GREAT SERVER OF DOOM >:)"
 var hosts = {
@@ -121,7 +126,9 @@ $(document).ready(function () {
         var btn = $(this);
         btn.addClass("active");
         var howManyProducts = $(".product").length - 1;
-        loadProductList(states[activeTab].active.category, states[activeTab].active.subcategory, howManyProducts, function () {
+        
+        // call draw handler
+        drawProducts (activeProducts, currentSkip, function () {
             btn.removeClass("active");
         });
     });
@@ -193,39 +200,75 @@ function handleState () {
     }
 }
 
-function loadProductList (category, subcategory, skip, callback) {
+// requests the products from the server and caches them
+function loadProductList (category, subcategory, callback) {
 
+    // build the params
     var params = {
         "class": category,
-        "subclass": subcategory,
-        "skip": skip || 0
+        "subclass": subcategory
     };
 
     callback = callback || function () {};
 
+    // make the request for the products
     makeAjaxPostCall("", params, function (data) {
-        var elems = [];
-        var products = JSON.parse(data);
 
+        // add products to cache
+        activeProducts = JSON.parse(data);
+
+        // skip is 0
+        currentSkip = 0;
         callback();
 
-        for(var i in products) {
-            var $temp = $(".product-temp").clone();
-
-            // add data to product template
-            $temp.find(".host").attr("src", "images/" + hosts[products[i].host]);
-            $temp.find(".product-img").attr("src", products[i].img);
-            $temp.find(".price-tag").html(products[i].price);
-            $temp.find(".old-price").html(products[i].oldPrice);
-            $temp.find(".product-description .title").html(products[i].title);
-
-            $temp.removeClass("product-temp");
-            $temp.show();
-            elems.push($temp);
-        }
-        skip ? $("#categories>.row").append(elems) : $("#categories>.row").html(elems);
-        products.length ? $(".load-more").show() : $(".load-more").hide();
+        // draw the first proucts
+        drawProducts (activeProducts, currentSkip);
     });
+}
+
+// draws products and handles the load more function
+function drawProducts (products, skip, callback) {
+
+    // add default values if variables do not exist
+    callback = callback || function () {};
+    skip = skip || 0;
+
+    // build the limit
+    var limit = (skip + LIMIT > products.length) ? products.length - skip : LIMIT
+
+    // draw the products
+    var elems = [];
+    for (var i = skip; i < skip + limit; ++i) {
+
+        if (!products[i]) continue;
+
+        var $temp = $(".product-temp").clone();
+
+        // add data to product template
+        $temp.find(".host").attr("src", "images/" + hosts[products[i].host]);
+        $temp.find(".product-img").attr("src", products[i].img);
+        $temp.find(".price-tag").html(products[i].price);
+        $temp.find(".old-price").html(products[i].oldPrice);
+        $temp.find(".product-description .title").html(products[i].title);
+
+        $temp.removeClass("product-temp");
+        $temp.show();
+        elems.push($temp);
+    }
+    skip ? $("#categories>.row").append(elems) : $("#categories>.row").html(elems);
+
+    // raise the skip
+    currentSkip += LIMIT;
+
+    // hide load more button if no more products
+    if (currentSkip > products.length) {
+        $(".load-more").hide();
+    } else {
+        $(".load-more").show();
+    }
+
+    // let the caller know the products have been drawn
+    callback();
 }
 
 function loadSubcategories (category) {
