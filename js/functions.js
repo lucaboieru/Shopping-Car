@@ -21,7 +21,9 @@ var categoryImgs = {
     video: "video.png",
     televizoare: "televizoare.png",
     phones: "phones.png",
-    tablets: "tablets.png"
+    tablets: "tablets.png",
+    gaming: "gaming.png",
+    software: "software.png"
 };
 
 $(document).ready(function () {
