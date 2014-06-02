@@ -28,7 +28,9 @@ var categoryImgs = {
     phones: "phones.png",
     tablets: "tablets.png",
     gaming: "gaming.png",
-    software: "software.png"
+    software: "software.png",
+    antivirus: "antivirus.png",
+    pc_games: "pc_games.png"
 };
 
 $(document).ready(function () {
@@ -325,7 +327,7 @@ function loadCategories () {
 
         // handle states
         states[activeTab].active = {
-            title: 'Categories',
+            title: 'Categorii',
             type: 'index',
             category: null,
             subcategory: null
