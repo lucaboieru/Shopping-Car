@@ -245,7 +245,7 @@ function drawProducts (products, skip, callback) {
         var $temp = $(".product-temp").clone();
 
         // add data to product template
-        $temp.find(".host").attr("src", "images/" + hosts[products[i].host]);
+        $temp.find(".shop").css("background-image", "url('images/" + hosts[products[i].host] + "')");
         $temp.find(".product-img").attr("src", products[i].img);
         $temp.find(".price-tag").html(products[i].price);
         $temp.find(".old-price").html(products[i].oldPrice);
