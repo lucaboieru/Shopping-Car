@@ -1,4 +1,4 @@
 Shopping Cart
 ==============
 
-This is a test for the Adobe PG app.
+This is the mobile application 'Shopping Cart'.
