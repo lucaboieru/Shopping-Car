@@ -37,7 +37,12 @@ var categoryImgs = {
     gaming: "gaming.png",
     software: "software.png",
     antivirus: "antivirus.png",
-    pc_games: "pc_games.png"
+    pc_games: "pc_games.png",
+    ssds: "default.png",
+    processors: "default.png",
+    video_cards: "default.png",
+    "aparate-frigorifice": "default.png",
+    "masini-spalat-rufe": "default.png"
 };
 
 $(document).ready(function () {
