@@ -4,8 +4,14 @@ var serverAddress;
 // app core objects
 var states = {};
 var activeTab;
-var activeProducts = [];
-var searchResult = [];
+var activeProducts = {
+    "shops": [],
+    "categories": [],
+};
+var searchResult = {
+    "shops": [],
+    "categories": [],
+};
 
 // load more init
 var LIMIT = 10;
@@ -45,9 +51,15 @@ $(document).ready(function () {
         active: {},
         history: []
     };
+    states['shops'] = {
+        active: {},
+        history: []
+    }
+
     activeTab = 'categories';
 
     loadCategories();
+    loadShops();
 
     // tab select handler
     $('.navItem').on('click', function () {
@@ -77,6 +89,28 @@ $(document).ready(function () {
             };
         }
         activeTab = tab;
+
+        // hide show more button if changing tabs
+        if (states[tab].active.type === 'index' || states[tab].active.type === 'category') {
+            $(".load-more").hide();
+        }
+        if (states[tab].active.type === 'subcategory' || states[tab].active.type === 'shop') {
+            currentSkip = 0;
+            drawProducts(activeProducts[tab], currentSkip);
+
+            // clear the search result too
+            searchResult[tab] = [];
+        }
+
+        // close and clear search input
+        if ($(".searchInput:visible")[0]) {
+            $(".searchInput").animate({"width": "0"}, 200);
+            $(".searchInput").css("padding", "2px 0px");
+            $(".searchInput").fadeOut(200).blur();
+            $(".searchInput").val('');
+        } else {
+            $(".searchInput").val('');
+        }
 
         // actions based on state 
         if (!states[activeTab].history.length) {
@@ -117,7 +151,11 @@ $(document).ready(function () {
 
             showSearchButton();
             // load the products
-            loadProductList($(this).attr("category"), $(this).attr("subcategory"));
+            var params = {
+                "class_id": $(this).attr("category"),
+                "subclass_id": $(this).attr("subcategory")
+            };
+            loadProductList(params);
 
             showBackButton();
             $(".pageTitle").html($(this).attr("subcategoryName"));       
@@ -127,7 +165,26 @@ $(document).ready(function () {
     // click on a shop
     $(document).on("click", ".shopWrapper", function () {
         var shop = $(this).attr("data-shop");
-        loadProductListByShop(shop);
+
+        // state is about to change, add active one to history
+        states[activeTab].history.push(states[activeTab].active);
+        showSearchButton();
+
+        // create the active state
+        states[activeTab].active = {
+            title: shop,
+            type: 'shop',
+            category: null,
+            subcategory: null
+        } 
+
+        // load the products
+        var params = {
+            "host": shop + ".ro"
+        };
+
+        loadProductList(params);
+        showBackButton();
     });
 
     // handle load more
@@ -137,7 +194,7 @@ $(document).ready(function () {
         var howManyProducts = $(".product").length - 1;
         
         // call draw handler
-        drawProducts ((searchResult.length) ? searchResult : activeProducts, currentSkip, function () {
+        drawProducts ((searchResult[activeTab].length) ? searchResult[activeTab] : activeProducts[activeTab], currentSkip, function () {
             btn.removeClass("active");
         });
     });
@@ -155,17 +212,13 @@ $(document).ready(function () {
 
     $(document).on('click', '.searchButton', function () {
         if ($(".searchInput:visible")[0]) {
-            $(".searchInput").val("");
             $(".searchInput").animate({"width": "0"}, 200);
             $(".searchInput").css("padding", "2px 0px");
-            $(".searchInput").fadeOut(200);
-
-            // show all products if search closed
-            showAllProducts();
+            $(".searchInput").fadeOut(200).blur();
         } else {
             $(".searchInput").show();
             $(".searchInput").css("padding", "2px 10px");
-            $(".searchInput").animate({"width": "72%"}, 200);
+            $(".searchInput").animate({"width": "72%"}, 200).focus();
         }
     });
 
@@ -183,6 +236,36 @@ function onDeviceReady(){
     }, false);
 }
 
+function loadShops () {
+
+    $("#shops .row").html(
+        "<div class='shopWrapper col-xs-6 mt-m' data-shop='emag'>" +
+            "<img src='images/emag.png'>" +
+            "<div class='shopTitle'>Emag</div>" +
+        "</div>" +
+        "<div class='shopWrapper col-xs-6 mt-m' data-shop='mediadot'>" +
+            "<img src='images/mediadot.png'>" +
+            "<div class='shopTitle'>Mediadot</div>" +
+        "</div>" +
+        "<div class='shopWrapper col-xs-6 mt-m' data-shop='pcgarage'>" +
+            "<img src='images/pcgarage.png'>" +
+            "<div class='shopTitle'>PC Garage</div>" +
+        "</div>"
+    );
+
+    // handle states
+    states['shops'].active = {
+        title: 'Shops',
+        type: 'index',
+        category: null,
+        subcategory: null
+    }
+
+    // hide back button
+    hideBackButton();
+    $(".load-more").hide();
+}   
+
 function handleState () {
 
     if (!states[activeTab].history.length) {
@@ -194,7 +277,12 @@ function handleState () {
     var last = states[activeTab].history.length - 1;
 
     if (states[activeTab].history[last].type === 'index') {
-        loadCategories();
+        if (activeTab === 'categories') {
+            loadCategories();
+        } else if (activeTab === 'shops') {
+            loadShops();
+        }
+
         $(".pageTitle").html(states[activeTab].history[last].title);
 
         states[activeTab].active = states[activeTab].history[last];
@@ -216,13 +304,13 @@ function searchProducts (input) {
 
     // build the query variable
     var query = input.split(" ");
-    searchResult = [];
+    searchResult[activeTab] = [];
 
     // filter the result
-    for (var i in activeProducts) {
+    for (var i in activeProducts[activeTab]) {
 
         // get the title of the object
-        var title = activeProducts[i].title.toLowerCase();
+        var title = activeProducts[activeTab][i].title.toLowerCase();
         var contains = 0;
         for (var j in query) {
 
@@ -230,23 +318,16 @@ function searchProducts (input) {
             if (title.indexOf(query[j].toLowerCase()) !== -1) ++contains;
 
             if (contains >= query.length) {
-                searchResult.push(activeProducts[i]);
+                searchResult[activeTab].push(activeProducts[activeTab][i]);
             }
         }
     }
-
     currentSkip = 0;
-    drawProducts(searchResult, currentSkip);
+    drawProducts(searchResult[activeTab], currentSkip);
 }
 
 // requests the products from the server and caches them
-function loadProductList (category, subcategory, callback) {
-
-    // build the params
-    var params = {
-        "class": category,
-        "subclass": subcategory
-    };
+function loadProductList (params, callback) {
 
     callback = callback || function () {};
 
@@ -254,19 +335,15 @@ function loadProductList (category, subcategory, callback) {
     makeAjaxPostCall("", params, function (data) {
 
         // add products to cache
-        activeProducts = JSON.parse(data);
+        activeProducts[activeTab] = JSON.parse(data);
 
         // skip is 0
         currentSkip = 0;
         callback();
 
         // draw the first proucts
-        drawProducts (activeProducts, currentSkip);
+        drawProducts (activeProducts[activeTab], currentSkip);
     });
-}
-
-function loadProductListByShop (shop, callback) {
-    // load by 
 }
 
 // draws products and handles the load more function
@@ -299,7 +376,7 @@ function drawProducts (products, skip, callback) {
         $temp.show();
         elems.push($temp);
     }
-    skip ? $("#categories>.row").append(elems) : $("#categories>.row").html(elems);
+    skip ? $("#" + activeTab + " > .row").append(elems) : $("#" + activeTab + " > .row").html(elems);
 
     // raise the skip
     currentSkip += LIMIT;
