@@ -336,6 +336,7 @@ function loadProductList (params, callback) {
 
         // add products to cache
         activeProducts[activeTab] = JSON.parse(data);
+        searchResult[activeTab] = [];
 
         // skip is 0
         currentSkip = 0;
