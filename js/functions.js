@@ -93,6 +93,7 @@ $(document).ready(function () {
         // hide show more button if changing tabs
         if (states[tab].active.type === 'index' || states[tab].active.type === 'category') {
             $(".load-more").hide();
+            hideSearchButton();
         }
         if (states[tab].active.type === 'subcategory' || states[tab].active.type === 'shop') {
             currentSkip = 0;
@@ -100,6 +101,7 @@ $(document).ready(function () {
 
             // clear the search result too
             searchResult[tab] = [];
+            showSearchButton();
         }
 
         // close and clear search input
@@ -272,6 +274,8 @@ function handleState () {
         hideBackButton();
         navigator.app.exitApp();
     }
+    // hide the search button
+    hideSearchButton();
 
     // get youngest state position
     var last = states[activeTab].history.length - 1;
