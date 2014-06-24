@@ -47,7 +47,7 @@ var categoryImgs = {
 
 $(document).ready(function () {
 
-    serverAddress = "squareapps.cloudapp.net";
+    serverAddress = "squaregmbh.cloudapp.net";
 
     // load first tab
     $('.tab:first').show();
